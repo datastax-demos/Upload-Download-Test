@@ -44,5 +44,5 @@ def init_cassandra():
 
 if __name__ == '__main__':
     init_cassandra()
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5001)
 
