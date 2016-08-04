@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <script src="/static/js/jquery.js"></script>
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="row">
+    <div class="col-md-6">
+        <b>Upload Image</b>
+        <form action="upload" id="image_upload_form" method="post" enctype="multipart/form-data">
+            <input id="image" type="file" name="file">
+            <input type="text" id="upload_id" name="upload_id">
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+    <div class="col-md-5">
+        <b>Fetch Image</b>
+        <br/>
+        <br/>
+        <input id="image_id">
+        <button id="fetch_image">Fetch Image</button>
+
+        <img id="loaded_image" style="display: none;" src="" />
+
+    </div>
+</div>
+
+<script>
+$("#image_upload_form").on("submit", function(){
+    if($("#upload_id").val() == "") {
+        alert("Please enter a picture ID")
+        return false
+    }
+    else if($("#image").val() == "") {
+        alert("Please select a valid picture")
+    }
+})
+$("#fetch_image").on("click", function(){
+    $.ajax({
+        url:'/download',
+        data:{
+            "image_id": $("#image_id").val()
+        },
+        success:function(data){
+            if(data != "Row Doesnt Exist") {
+                $("#loaded_image").attr("src", "data:image/png;base64," + data)
+                $("#loaded_image").css("display", "block")
+            }
+            else
+            {
+                alert("ID Is not valid")
+            }
+        }
+    })
+})
+</script>
+
+</body>
+</html>
